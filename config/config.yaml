@@ -1,0 +1,9 @@
+gencode:
+  url: "ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M27"
+  uri:
+    ref_genome: "GRCm39.primary_assembly.genome.fa.gz"
+    ref_transcripts: "gencode.vM27.transcripts.fa.gz"
+    gene_annotations: "gencode.vM27.annotation.gtf.gz"
+
+samples: config/design_matrix.csv
+fastq_dir: "/home/yi/storage/data/JLU_mouse/raw"
