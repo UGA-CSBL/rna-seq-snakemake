@@ -47,3 +47,20 @@ rule salmon_index:
             -p {threads}
         """
 
+rule salmon_quant:
+    input:
+        seq1=lambda wc: str(Path(config["fastq_dir"]) / wc.sid / (SAMPLES.loc[wc.sid, "Filename"] + "_1.fq.gz")),
+        seq2=lambda wc: str(Path(config["fastq_dir"]) / wc.sid / (SAMPLES.loc[wc.sid, "Filename"] + "_2.fq.gz")),
+        idx=rules.salmon_index.output
+    output:
+        directory("quant/{sid}")  # comes from rules.all
+    threads: 20
+    shell:
+        """salmon quant --validateMappings --gcBias \
+            -i {input.idx} \
+            -l A \
+            -1 {input.seq1} \
+            -2 {input.seq2} \
+            -p {threads} \
+            -o {output}
+        """

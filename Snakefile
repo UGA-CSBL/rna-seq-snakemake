@@ -14,3 +14,5 @@ rule all:
         # MultiQC report
         rules.fastqc.output,
         rules.multiqc.output,
+        # Salmon quant outputs
+        expand("quant/{sid}", sid=SAMPLES.index),
