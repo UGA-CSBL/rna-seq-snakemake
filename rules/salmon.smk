@@ -55,6 +55,7 @@ rule salmon_quant:
     output:
         directory("quant/{sid}")  # comes from rules.all
     threads: 20
+    priority: 1
     shell:
         """salmon quant --validateMappings --gcBias \
             -i {input.idx} \

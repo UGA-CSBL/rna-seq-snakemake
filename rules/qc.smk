@@ -14,6 +14,7 @@ rule fastqc:
             seq=["1", "2"],
         ))
     threads: 30
+    priority: 10
     shell:
         """fastqc {input} \
             --outdir {output.res_dir} \
@@ -45,6 +46,7 @@ rule multiqc:
     output:
         directory("qc/multiqc/multiqc_data"),
         "qc/multiqc/multiqc_report.html"
+    priority: 9
     shell:
         """multiqc {input.reports} \
             --sample-names {input.sample_names} \
