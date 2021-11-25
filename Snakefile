@@ -22,3 +22,5 @@ rule all:
         rules.multiqc.output,
         # Salmon quant outputs
         expand("quant/{sid}", sid=SAMPLES.index),
+        # STAR 2-pass outputs
+        expand("star/{sid}/{files}", sid=SAMPLES.index, files=["Aligned.out.bam", "ReadsPerGene.out.tab"]),
