@@ -27,22 +27,22 @@ rule star_index:
 # https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/
 rule star_two_pass:
     params:
-        read_group=lambda wc: "ID:" + wc.sid
+        read_group=lambda wc: "ID:" + wc.sid,
+        prefix="star/{sid}/{sid}_",
     input:
         seq1=lambda wc: str(Path(config["fastq_dir"]) / wc.sid / (SAMPLES.loc[wc.sid, "Filename"] + "_1.fq.gz")),
         seq2=lambda wc: str(Path(config["fastq_dir"]) / wc.sid / (SAMPLES.loc[wc.sid, "Filename"] + "_2.fq.gz")),
         idx=rules.star_index.output
     output:
-        "star/{sid}/Aligned.out.bam",
-        "star/{sid}/ReadsPerGene.out.tab",
-        out_dir="star/{sid}/",
+        "star/{sid}/{sid}_Aligned.out.bam",
+        "star/{sid}/{sid}_ReadsPerGene.out.tab",
     threads: 30
     shell:
         """STAR \
             --readFilesIn {input.seq1} {input.seq2} \
             --outSAMattrRGline {params.read_group} \
             --genomeDir {input.idx} \
-            --outFileNamePrefix {output.out_dir} \
+            --outFileNamePrefix {params.prefix} \
             --runThreadN {threads} \
             --alignIntronMax 1000000 \
             --alignIntronMin 20 \
