@@ -44,7 +44,8 @@ rule salmon_quant:
         seq2=lambda wc: str(Path(config["fastq_dir"]) / wc.sid / (SAMPLES.loc[wc.sid, "Filename"] + "_2.fq.gz")),
         idx=rules.salmon_index.output
     output:
-        "results/salmon/{sid}/quant.sf"  # comes from rules.all
+        outdir=directory("results/salmon/{sid}/"),
+        quant_file="results/salmon/{sid}/quant.sf"  # comes from rules.all
     threads: 20
     priority: 1
     conda:
@@ -56,5 +57,5 @@ rule salmon_quant:
             -1 {input.seq1} \
             -2 {input.seq2} \
             -p {threads} \
-            -o {output}
+            -o {output.outdir}
         """
