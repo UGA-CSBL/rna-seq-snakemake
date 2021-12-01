@@ -7,7 +7,7 @@ rule star_index:
         directory("annotation/star_index/")
     threads: 30
     conda:
-        "envs/quant.yml"
+        "../envs/quant.yml"
     shell:
         """STAR \
             --runMode genomeGenerate \
@@ -32,7 +32,7 @@ rule star_two_pass:
         "star/{sid}/{sid}_ReadsPerGene.out.tab",
     threads: 30
     conda:
-        "envs/quant.yml"
+        "../envs/quant.yml"
     shell:
         """STAR \
             --readFilesIn {input.seq1} {input.seq2} \

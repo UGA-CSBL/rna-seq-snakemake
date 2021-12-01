@@ -16,7 +16,7 @@ rule fastqc:
     threads: 30
     priority: 10
     conda:
-        "envs/qc.yml"
+        "../envs/qc.yml"
     shell:
         """fastqc {input} \
             --outdir {output.res_dir} \
@@ -50,7 +50,7 @@ rule multiqc:
         "qc/multiqc/multiqc_report.html"
     priority: 9
     conda:
-        "envs/qc.yml"
+        "../envs/qc.yml"
     shell:
         """multiqc {input.reports} \
             --sample-names {input.sample_names} \

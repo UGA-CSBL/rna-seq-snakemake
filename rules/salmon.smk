@@ -29,7 +29,7 @@ rule salmon_index:
         directory("annotation/salmon_index/")
     threads: 30
     conda:
-        "envs/quant.yml"
+        "../envs/quant.yml"
     shell:
         """salmon index --gencode \
             -t {input.gentrome} \
@@ -48,7 +48,7 @@ rule salmon_quant:
     threads: 20
     priority: 1
     conda:
-        "envs/quant.yml"
+        "../envs/quant.yml"
     shell:
         """salmon quant --validateMappings --gcBias \
             -i {input.idx} \
