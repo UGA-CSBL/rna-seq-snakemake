@@ -53,3 +53,15 @@ rule differential_expression:
     script:
         "../scripts/diff_expression.R"
 
+# Download ID mapping file
+rule mouse_to_human:
+    input:
+        ensembl_id_file=rules.transcript_to_gene.output
+    output:
+        "results/mouse_human_id_mapping.csv"
+    conda:
+        "../envs/biomart.yml"
+    log:
+        "logs/mouse_to_human.log"
+    script:
+        "../scripts/mouse_to_human.R"

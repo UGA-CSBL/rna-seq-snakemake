@@ -34,4 +34,6 @@ rule all:
             "results/deseq2/{software}/{tp}_Model_vs_Control.csv",
             tp=SAMPLES["Timepoint"].unique(),
             software=["star", "salmon"]
-        )
+        ),
+        # Annotation file mapping mouse genes to human genes
+        rules.mouse_to_human.output

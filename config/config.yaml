@@ -1,3 +1,4 @@
+ensembl_version: "104"
 gencode:
   url: "ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M27"
   uri:

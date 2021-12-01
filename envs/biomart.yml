@@ -1,0 +1,7 @@
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - r-base=4.1.1
+  - bioconductor-biomart=2.50
+  - r-data.table=1.14.2
