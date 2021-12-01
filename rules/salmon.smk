@@ -28,6 +28,8 @@ rule salmon_index:
     output:
         directory("annotation/salmon_index/")
     threads: 30
+    conda:
+        "envs/quant.yml"
     shell:
         """salmon index --gencode \
             -t {input.gentrome} \
@@ -45,6 +47,8 @@ rule salmon_quant:
         directory("quant/{sid}")  # comes from rules.all
     threads: 20
     priority: 1
+    conda:
+        "envs/quant.yml"
     shell:
         """salmon quant --validateMappings --gcBias \
             -i {input.idx} \
