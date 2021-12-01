@@ -5,6 +5,7 @@ include: "rules/qc.smk"
 include: "rules/gencode.smk"
 include: "rules/salmon.smk"
 include: "rules/star.smk"
+include: "rules/diff_expression.smk"
 
 rule all:
     input:

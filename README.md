@@ -9,14 +9,7 @@ This pipeline runs the following steps:
 5. Merge Salmon TPMs, Salmon read counts, and STAR read counts into three tables.
 6. Use [DESeq2](https://www.bioconductor.org/packages/release/bioc/html/DESeq2.html) to compare transcript abundance between samples.
 
-To run this pipeline, install and activate the conda environment with:
-
-```bash
-conda env create -f rnaseq.yml -n rnaseq
-conda activate rnaseq
-```
-
-Then after modifying the [configuration](./config/config.yml) file, run the pipeline with:
+To run this pipeline, install Snakemake following the [installation instructions](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html). Then after modifying the [configuration](./config/config.yml) file, run the pipeline with:
 
 ```bash
 snakemake -c <num-of-cores> --use-conda
