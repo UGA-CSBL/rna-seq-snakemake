@@ -25,3 +25,17 @@ rule merge_star_results:
     script:
         "../scripts/merge_star.R"
 
+rule merge_salmon_results:
+    input:
+        tx2gene=rules.transcript_to_gene.output,
+        salmon_files=expand("quant/{sid}/quant.sf", sid=SAMPLES.index)
+    output:
+        counts="results/salmon_counts.csv",
+        tpm="results/TPMs.csv"
+    conda:
+        "../envs/deseq2.yml"
+    log:
+        "logs/merge_salmon.log"
+    script:
+        "../scripts/merge_quant_results.R"
+

@@ -23,6 +23,6 @@ rule all:
         rules.fastqc.output,
         rules.multiqc.output,
         # Salmon quant outputs
-        expand("quant/{sid}", sid=SAMPLES.index),
+        expand("quant/{sid}/quant.sf", sid=SAMPLES.index),
         # STAR 2-pass outputs
         expand("star/{sid}/{sid}_{files}", sid=SAMPLES.index, files=["Aligned.out.bam", "ReadsPerGene.out.tab"]),
