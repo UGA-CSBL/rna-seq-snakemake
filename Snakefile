@@ -2,6 +2,7 @@ configfile: "config/config.yaml"
 
 include: "rules/conf.smk"
 include: "rules/qc.smk"
+include: "rules/gencode.smk"
 include: "rules/salmon.smk"
 include: "rules/star.smk"
 
