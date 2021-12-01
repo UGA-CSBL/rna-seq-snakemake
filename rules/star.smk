@@ -1,10 +1,10 @@
 # https://github.com/alexdobin/STAR/blob/2eb750b45549f6b30a3a01f3b9e166e2de72a57d/doc/STARmanual.pdf
 rule star_index:
     input:
-        ref_genome="annotation/gencode/ref_genome.gencode",
-        gtf="annotation/gencode/gene_annotations.gencode"
+        ref_genome="results/annotation/gencode/ref_genome.gencode",
+        gtf="results/annotation/gencode/gene_annotations.gencode"
     output:
-        directory("annotation/star_index/")
+        directory("results/annotation/star_index/")
     threads: 30
     conda:
         "../envs/quant.yml"
@@ -22,14 +22,14 @@ rule star_index:
 rule star_two_pass:
     params:
         read_group=lambda wc: "ID:" + wc.sid,
-        prefix="star/{sid}/{sid}_",
+        prefix="results/star/{sid}/{sid}_",
     input:
         seq1=lambda wc: str(Path(config["fastq_dir"]) / wc.sid / (SAMPLES.loc[wc.sid, "Filename"] + "_1.fq.gz")),
         seq2=lambda wc: str(Path(config["fastq_dir"]) / wc.sid / (SAMPLES.loc[wc.sid, "Filename"] + "_2.fq.gz")),
         idx=rules.star_index.output
     output:
-        "star/{sid}/{sid}_Aligned.out.bam",
-        "star/{sid}/{sid}_ReadsPerGene.out.tab",
+        "results/star/{sid}/{sid}_Aligned.out.bam",
+        "results/star/{sid}/{sid}_ReadsPerGene.out.tab",
     threads: 30
     conda:
         "../envs/quant.yml"

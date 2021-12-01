@@ -7,9 +7,9 @@ rule fastqc:
             seq=["1", "2"],
         )
     output:
-        res_dir=directory("qc/fastqc/"),
+        res_dir=directory("results/qc/fastqc/"),
         sample_dirs=directory(expand(
-            "qc/fastqc/{s.Filename}_{seq}_fastqc/",
+            "results/qc/fastqc/{s.Filename}_{seq}_fastqc/",
             s=SAMPLES.itertuples(),
             seq=["1", "2"],
         ))
@@ -29,7 +29,7 @@ rule rename_fastqc_reports:
     params:
         s=SAMPLES.filter(["Filename", "Sample"])
     output:
-        "qc/sample_names.tsv"
+        "results/qc/sample_names.tsv"
     run:
         res = pd.concat(
             [
@@ -46,14 +46,14 @@ rule multiqc:
         reports=rules.fastqc.output.res_dir,
         sample_names=rules.rename_fastqc_reports.output
     output:
-        directory("qc/multiqc/multiqc_data"),
-        "qc/multiqc/multiqc_report.html"
+        directory("results/qc/multiqc/multiqc_data"),
+        "results/qc/multiqc/multiqc_report.html"
     priority: 9
     conda:
         "../envs/qc.yml"
     shell:
         """multiqc {input.reports} \
             --sample-names {input.sample_names} \
-            --outdir qc/multiqc \
+            --outdir results/qc/multiqc \
             -m fastqc
         """

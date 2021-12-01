@@ -15,9 +15,11 @@ To run this pipeline, install Snakemake following the [installation instructions
 snakemake -c <num-of-cores> --use-conda
 ```
 
-This will genrate the following directories:
 
-- `annotation/`: GENCODE reference files, Salmon index files, and STAR index files.
-- `qc/`: directory for FastQC and MultiQC output.
-- `quant/`: directory for Salmon output.
-- `star/`: directory for STAR output.
+This pipeline will genrate the following subdirectories in the `results/` directory:
+
+-   `annotation/`: GENCODE reference files, Salmon index files, and STAR index files.
+-   `qc/`: directory for FastQC and MultiQC output.
+-   `salmon/`: directory for Salmon output.
+-   `star/`: directory for STAR output.
+-   `deseq2/`: directory for differential expression analysis results.

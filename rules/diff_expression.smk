@@ -1,9 +1,9 @@
 # Transcript ID -> Ensembl gene ID using downloaded annotation file
 rule transcript_to_gene:
     input:
-        "annotation/gencode/gene_annotations.gencode"
+        "results/annotation/gencode/gene_annotations.gencode"
     output:
-        "results/id_mapping.csv"
+        "results/id_mapping/mouse_transcript_to_gene.csv"
     conda:
         "../envs/deseq2.yml"
     log:
@@ -15,7 +15,7 @@ rule transcript_to_gene:
 rule merge_star_results:
     input:
         tx2gene=rules.transcript_to_gene.output,
-        star_files=expand("star/{sid}/{sid}_ReadsPerGene.out.tab", sid=SAMPLES.index)
+        star_files=expand("results/star/{sid}/{sid}_ReadsPerGene.out.tab", sid=SAMPLES.index)
     output:
         "results/star_counts.csv"
     conda:
@@ -28,7 +28,7 @@ rule merge_star_results:
 rule merge_salmon_results:
     input:
         tx2gene=rules.transcript_to_gene.output,
-        salmon_files=expand("quant/{sid}/quant.sf", sid=SAMPLES.index)
+        salmon_files=expand("results/salmon/{sid}/quant.sf", sid=SAMPLES.index)
     output:
         counts="results/salmon_counts.csv",
         tpm="results/TPMs.csv"
@@ -58,7 +58,7 @@ rule mouse_to_human:
     input:
         ensembl_id_file=rules.transcript_to_gene.output
     output:
-        "results/mouse_human_id_mapping.csv"
+        "results/id_mapping/mouse2human.csv"
     conda:
         "../envs/biomart.yml"
     log:

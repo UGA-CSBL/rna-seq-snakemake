@@ -4,20 +4,20 @@ from pathlib import Path
 rule prepare_metadata:
     # get names of the genome targets
     input:
-        "annotation/gencode/ref_genome.gencode.gz"
+        "results/annotation/gencode/ref_genome.gencode"
     output:
-        "annotation/gencode/decoys.txt"
+        "results/annotation/gencode/decoys.txt"
     shell:
-        """grep '^>' <(gunzip -c {input}) | cut -d ' ' -f 1 > {output} && \
+        """grep '^>' {input} | cut -d ' ' -f 1 > {output} && \
         sed -i.bak -e 's/>//g' {output}
         """
 
 rule concat_gentrome:
     input:
-        transcriptome="annotation/gencode/ref_transcripts.gencode.gz",
-        genome="annotation/gencode/ref_genome.gencode.gz"
+        transcriptome="results/annotation/gencode/ref_transcripts.gencode.gz",
+        genome="results/annotation/gencode/ref_genome.gencode.gz"
     output:
-        "annotation/gencode/gentrome.gz"
+        "results/annotation/gencode/gentrome.gz"
     shell:
         "cat {input.transcriptome} {input.genome} > {output}"
 
@@ -26,7 +26,7 @@ rule salmon_index:
         gentrome=rules.concat_gentrome.output,
         decoys=rules.prepare_metadata.output
     output:
-        directory("annotation/salmon_index/")
+        directory("results/annotation/salmon_index/")
     threads: 30
     conda:
         "../envs/quant.yml"
@@ -44,7 +44,7 @@ rule salmon_quant:
         seq2=lambda wc: str(Path(config["fastq_dir"]) / wc.sid / (SAMPLES.loc[wc.sid, "Filename"] + "_2.fq.gz")),
         idx=rules.salmon_index.output
     output:
-        "quant/{sid}/quant.sf"  # comes from rules.all
+        "results/salmon/{sid}/quant.sf"  # comes from rules.all
     threads: 20
     priority: 1
     conda:
