@@ -37,5 +37,19 @@ rule merge_salmon_results:
     log:
         "logs/merge_salmon.log"
     script:
-        "../scripts/merge_quant_results.R"
+        "../scripts/merge_salmon.R"
+
+rule differential_expression:
+    input:
+        star=rules.merge_star_results.output,
+        salmon=rules.merge_salmon_results.output.counts
+    output:
+        "results/deseq2/{software}/{tp}_Model_vs_Control.csv"
+    threads: 20
+    conda:
+        "../envs/deseq2.yml"
+    log:
+        "logs/differential_expression_{software}_{tp}.log"
+    script:
+        "../scripts/diff_expression.R"
 

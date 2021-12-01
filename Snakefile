@@ -26,3 +26,12 @@ rule all:
         expand("quant/{sid}/quant.sf", sid=SAMPLES.index),
         # STAR 2-pass outputs
         expand("star/{sid}/{sid}_{files}", sid=SAMPLES.index, files=["Aligned.out.bam", "ReadsPerGene.out.tab"]),
+        # Combined tables
+        rules.merge_star_results.output,
+        rules.merge_salmon_results.output,
+        # Differential expression analysis outputs (DESeq2)
+        expand(
+            "results/deseq2/{software}/{tp}_Model_vs_Control.csv",
+            tp=SAMPLES["Timepoint"].unique(),
+            software=["star", "salmon"]
+        )
